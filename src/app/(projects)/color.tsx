@@ -1,5 +1,4 @@
 import {
-  StyleSheet,
   Text,
   View,
   StatusBar,
@@ -10,7 +9,12 @@ import React, { useState } from "react";
 
 const ColorChangerApp = () => {
   const [activeColor, setActiveColor] = useState("#ffffff");
-
+  const bg = (color: string) => {
+    if (activeColor === color) {
+      return color;
+    }
+    return "#eeeeee";
+  };
   return (
     <SafeAreaView style={{ backgroundColor: activeColor, flex: 1 }}>
       <StatusBar backgroundColor={activeColor} />
@@ -30,7 +34,7 @@ const ColorChangerApp = () => {
             style={{
               alignItems: "center",
               width: 108,
-              backgroundColor: "#eeeeee",
+              backgroundColor: bg(item.color),
               borderRadius: 5,
               paddingVertical: 10,
               paddingHorizontal: 4,
