@@ -4,6 +4,7 @@ type TodoStore = {
   todos: { id: number; task: string; title: string; updatedAt: Date }[];
   fetchTodos: () => Promise<void>;
   updateTodo: (title: string, task: string, id: number) => Promise<string>;
+  deleteTodo: (id: number) => Promise<string>;
 };
 
 export const useTodoStore = create<TodoStore>()((set) => ({
@@ -24,7 +25,7 @@ export const useTodoStore = create<TodoStore>()((set) => ({
       title: title,
       task: task,
     });
-    console.log(bodyJson);
+    // console.log(bodyJson);
 
     try {
       const response = await fetch("http://192.168.1.72:3000/api/todo/update", {
@@ -35,6 +36,23 @@ export const useTodoStore = create<TodoStore>()((set) => ({
         },
         redirect: "follow",
       });
+      const data = await response.json();
+      // console.log(data);
+      return "success";
+    } catch (error) {
+      console.error("Error updating todo: ", error);
+      return "fail";
+    }
+  },
+  deleteTodo: async (id: number) => {
+    try {
+      const response = await fetch(
+        `http://192.168.1.72:3000/api/todo/delete?id=${id}`,
+        {
+          method: "POST",
+          redirect: "follow",
+        }
+      );
       const data = await response.json();
       console.log(data);
       return "success";
